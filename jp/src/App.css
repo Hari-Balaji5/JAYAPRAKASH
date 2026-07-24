@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  background: white;
+  width: 450px;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  color: #ff4081;
+  margin-bottom: 25px;
+  font-size: 32px;
+}
+
+h2 {
+  min-height: 70px;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 22px;
+  transition: 0.3s;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin: 12px 0;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+/* Normal JP */
+button:nth-of-type(1) {
+  background: #757575;
+}
+
+button:nth-of-type(1):hover {
+  background: #616161;
+  transform: scale(1.05);
+}
+
+/* Smart and Lean JP */
+button:nth-of-type(2) {
+  background: #2196f3;
+}
+
+button:nth-of-type(2):hover {
+  background: #1976d2;
+  transform: scale(1.05);
+}
+
+/* Fit JP */
+button:nth-of-type(3) {
+  background: #43a047;
+}
+
+button:nth-of-type(3):hover {
+  background: #2e7d32;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.96);
+}
