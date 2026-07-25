@@ -1,154 +1,123 @@
+import React, { useState, useCallback, useMemo } from 'react';
 import './App.css';
-import { useState, useCallback } from 'react';
-import { JP_TYPES } from './data';
-import FloatingHearts from './FloatingHearts';
-import Confetti from './Confetti';
-import InterestMeter from './InterestMeter';
-import ResultCard from './ResultCard';
+import { CATEGORIES, JP_TYPES } from './data/replies';
+import AmbientBackground from './components/AmbientBackground';
+import CategoryFilter from './components/CategoryFilter';
+import ButtonGrid from './components/ButtonGrid';
+import InterestMeter from './components/InterestMeter';
+import ResultCard from './components/ResultCard';
+import Confetti from './components/Confetti';
 
 function App() {
+  const [activeCategory, setActiveCategory] = useState('all');
   const [selectedType, setSelectedType] = useState(null);
   const [reply, setReply] = useState('');
-  const [interest, setInterest] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [confettiActive, setConfettiActive] = useState(false);
   const [confettiKey, setConfettiKey] = useState(0);
-  const [clickBurst, setClickBurst] = useState(null);
 
-  const handleSelect = useCallback((jpType) => {
-    // Hide previous result with animation
+  // Filter types based on selected category tab
+  const filteredTypes = useMemo(() => {
+    if (activeCategory === 'all') return JP_TYPES;
+    return JP_TYPES.filter((t) => t.category === activeCategory);
+  }, [activeCategory]);
+
+  const handleSelectType = useCallback((e, jpType) => {
+    // Hide previous result card smoothly before showing new reply
     setShowResult(false);
 
     setTimeout(() => {
-      // Pick a random reply
-      const randomReply =
-        jpType.replies[Math.floor(Math.random() * jpType.replies.length)];
+      // Pick a random reply from the 5–10 available responses
+      const randomIndex = Math.floor(Math.random() * jpType.replies.length);
+      const chosenReply = jpType.replies[randomIndex];
 
       setSelectedType(jpType);
-      setReply(randomReply);
-      setInterest(jpType.interest);
+      setReply(chosenReply);
       setShowResult(true);
 
-      // Trigger confetti for Perfect JP
+      // Trigger confetti explosion if Ultimate Perfect JP is picked
       if (jpType.id === 'perfect') {
         setConfettiKey((prev) => prev + 1);
         setConfettiActive(true);
-        setTimeout(() => setConfettiActive(false), 100);
+        setTimeout(() => setConfettiActive(false), 200);
       }
 
-      // Scroll to result
+      // Smooth scroll to the result section
       setTimeout(() => {
-        const resultEl = document.getElementById('result-section');
-        if (resultEl) {
-          resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const resultSection = document.getElementById('result-section');
+        if (resultSection) {
+          resultSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-      }, 200);
-    }, 300);
+      }, 150);
+    }, 250);
   }, []);
 
-  const handleButtonClick = (e, jpType) => {
-    // Create click burst animation
-    const rect = e.currentTarget.getBoundingClientRect();
-    setClickBurst({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-      id: Date.now(),
-    });
-
-    handleSelect(jpType);
-  };
-
   return (
-    <div className="app">
-      <FloatingHearts />
+    <div className="app-root">
+      {/* Igloo.inc style Ambient Dark Background */}
+      <AmbientBackground />
+
+      {/* Screen-wide Confetti + Falling Heart Rain for Perfect JP */}
       <Confetti key={confettiKey} active={confettiActive} />
 
-      {/* Click burst hearts */}
-      {clickBurst && (
-        <div
-          className="click-burst"
-          style={{ left: clickBurst.x, top: clickBurst.y }}
-          key={clickBurst.id}
-        >
-          {Array.from({ length: 6 }).map((_, i) => (
-            <span
-              key={i}
-              className="burst-heart"
-              style={{
-                '--angle': `${i * 60}deg`,
-                '--delay': `${i * 0.05}s`,
-              }}
-            >
-              💗
-            </span>
-          ))}
-        </div>
-      )}
+      <div className="app-container">
+        {/* Futuristic Hero Section */}
+        <header className="hero-header">
+          <div className="hero-pill-badge">
+            <span className="live-dot" />
+            <span>Nisha Relationship Simulator v2.0</span>
+          </div>
 
-      <div className="content-wrapper">
-        {/* Header */}
-        <header className="header">
-          <div className="header-glow" />
-          <h1 className="title">
-            <span className="title-emoji">💖</span>
-            Does Nisha Like JP?
-            <span className="title-emoji">💖</span>
+          <h1 className="hero-title">
+            Does Nisha Like <span className="hero-title-accent">JP?</span> ⚡
           </h1>
-          <p className="subtitle">
-            <em>"Choose which version of JP to check Nisha's reaction! 😄"</em>
+
+          <p className="hero-subtitle">
+            Select a version of <em>JP</em> to simulate Nisha's instant emotional reaction, interest percentage, and witty commentary!
           </p>
         </header>
 
-        {/* Buttons Grid */}
-        <section className="buttons-section">
-          <div className="buttons-grid">
-            {JP_TYPES.map((jpType) => (
-              <button
-                key={jpType.id}
-                className={`jp-button ${
-                  selectedType?.id === jpType.id ? 'jp-button-active' : ''
-                }`}
-                style={{ '--btn-gradient': jpType.color }}
-                onClick={(e) => handleButtonClick(e, jpType)}
-                id={`btn-${jpType.id}`}
-              >
-                <span className="btn-emoji">{jpType.emoji}</span>
-                <span className="btn-label">{jpType.label}</span>
-                <div className="btn-shine" />
-              </button>
-            ))}
-          </div>
-        </section>
+        {/* Category Segmented Control Filter */}
+        <CategoryFilter
+          categories={CATEGORIES}
+          activeCategory={activeCategory}
+          onSelectCategory={setActiveCategory}
+        />
 
-        {/* Result Section */}
-        <section id="result-section" className="result-section">
+        {/* Interactive Option Buttons Grid */}
+        <ButtonGrid
+          jpTypes={filteredTypes}
+          selectedType={selectedType}
+          onSelectType={handleSelectType}
+        />
+
+        {/* Floating Results Section */}
+        <section id="result-section" className="result-section-anchor">
           {selectedType && (
             <>
               <InterestMeter
-                interest={showResult ? interest : 0}
+                interest={showResult ? selectedType.interest : 0}
                 label={selectedType.label}
               />
               <ResultCard
+                selectedType={selectedType}
                 reply={reply}
-                emoji={selectedType.emoji}
-                interest={interest}
+                interest={selectedType.interest}
                 visible={showResult}
               />
             </>
           )}
         </section>
 
-        {/* Footer */}
-        <footer className="footer">
-          <div className="footer-content">
-            <p className="footer-text">
-              😂 This website is purely for fun and entertainment. Don't take the
-              results seriously! ❤️
-            </p>
-            <p className="footer-sub">
-              Made with 💖 for laughs
-            </p>
-          </div>
+        {/* Stylish & Witty Footer */}
+        <footer className="app-footer">
+          <div className="footer-divider" />
+          <p className="footer-disclaimer">
+            😂 Purely for fun and entertainment. Don't take the results too seriously! ❤️
+          </p>
+          <p className="footer-credit">
+            Crafted with 💖 for laughs & futuristic vibes • 2026
+          </p>
         </footer>
       </div>
     </div>

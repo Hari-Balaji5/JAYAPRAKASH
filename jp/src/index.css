@@ -9,18 +9,11 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a0533 0%, #2d1b69 25%, #44187a 50%, #6b1d5e 75%, #1a0533 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-  color: #fff;
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  background: #07080e;
+  color: #f8fafc;
 }
 
 ::-webkit-scrollbar {
