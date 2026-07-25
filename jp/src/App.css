@@ -1,84 +1,664 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+/* ============================================
+   💖 Does Nisha Like JP? - App Styles 💖
+   ============================================ */
+
+/* ---- App Container ---- */
+.app {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
-body {
-  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px 20px;
+}
+
+/* ---- Header ---- */
+.header {
+  text-align: center;
+  padding: 50px 20px 30px;
+  position: relative;
+}
+
+.header-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(255, 107, 157, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff6b9d, #c44dff, #ff6b9d, #ffd700);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s ease infinite;
+  margin-bottom: 16px;
+  line-height: 1.3;
+  position: relative;
+  text-shadow: none;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.title-emoji {
+  display: inline-block;
+  -webkit-text-fill-color: initial;
+  animation: heartPulse 1.2s ease-in-out infinite;
+  font-size: 2.8rem;
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+.subtitle {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 400;
+  margin-top: 8px;
+  letter-spacing: 0.3px;
+}
+
+/* ---- Buttons Section ---- */
+.buttons-section {
+  padding: 10px 0 40px;
+}
+
+.buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ---- JP Button ---- */
+.jp-button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 22px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  min-height: 100px;
+}
+
+.jp-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: var(--btn-gradient);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 0;
+}
+
+.jp-button:hover::before {
+  opacity: 0.25;
+}
+
+.jp-button:hover {
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 12px 40px rgba(196, 77, 255, 0.25),
+    0 0 30px rgba(255, 107, 157, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.jp-button:active {
+  transform: translateY(-2px) scale(0.97);
+  transition-duration: 0.1s;
+}
+
+/* Active/selected button glow */
+.jp-button-active {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 0 20px rgba(255, 107, 157, 0.4),
+    0 0 50px rgba(196, 77, 255, 0.2),
+    inset 0 0 20px rgba(255, 107, 157, 0.1);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+.jp-button-active::before {
+  opacity: 0.35;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(255, 107, 157, 0.4),
+      0 0 50px rgba(196, 77, 255, 0.2),
+      inset 0 0 20px rgba(255, 107, 157, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(255, 107, 157, 0.6),
+      0 0 70px rgba(196, 77, 255, 0.3),
+      inset 0 0 30px rgba(255, 107, 157, 0.15);
+  }
+}
+
+.btn-emoji {
+  font-size: 2.2rem;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+  animation: emojiFloat 3s ease-in-out infinite;
+}
+
+.jp-button:hover .btn-emoji {
+  transform: scale(1.2);
+  animation: emojiBounce 0.5s ease;
+}
+
+@keyframes emojiFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes emojiBounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); }
+  60% { transform: scale(0.95); }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1.2); }
+}
+
+.btn-label {
+  position: relative;
+  z-index: 1;
+  font-size: 0.92rem;
+  letter-spacing: 0.3px;
+}
+
+/* Button shine effect */
+.btn-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  z-index: 0;
+}
+
+.jp-button:hover .btn-shine {
+  animation: shine 0.8s ease forwards;
+}
+
+@keyframes shine {
+  to { transform: translateX(100%); }
+}
+
+/* ---- Click Burst ---- */
+.click-burst {
+  position: fixed;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.burst-heart {
+  position: absolute;
+  font-size: 1.2rem;
+  animation: burstOut 0.8s ease-out forwards;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+
+@keyframes burstOut {
+  0% {
+    transform: translate(0, 0) scale(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(
+      calc(cos(var(--angle)) * 60px),
+      calc(sin(var(--angle)) * 60px)
+    ) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* ---- Result Section ---- */
+.result-section {
+  padding: 20px 0 30px;
+  min-height: 100px;
+}
+
+/* ---- Interest Meter ---- */
+.interest-meter {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  animation: fadeSlideUp 0.6s ease-out;
+}
+
+.meter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.meter-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.meter-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff6b9d, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.meter-track {
+  width: 100%;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  min-width: 0;
+}
+
+.meter-glow {
+  position: absolute;
+  right: 0;
+  top: -4px;
+  bottom: -4px;
+  width: 30px;
+  background: radial-gradient(ellipse at right, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+  animation: meterGlowPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes meterGlowPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.meter-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.status-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  animation: fadeIn 0.8s ease-out 0.5s both;
+}
+
+.status-label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+}
+
+/* ---- Result Card ---- */
+.result-card {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  padding: 40px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.result-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.result-perfect {
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow:
+    0 0 40px rgba(255, 215, 0, 0.2),
+    0 0 80px rgba(255, 107, 157, 0.15),
+    inset 0 0 40px rgba(255, 215, 0, 0.05);
+  animation: perfectGlow 2s ease-in-out infinite;
+}
+
+@keyframes perfectGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 40px rgba(255, 215, 0, 0.2),
+      0 0 80px rgba(255, 107, 157, 0.15),
+      inset 0 0 40px rgba(255, 215, 0, 0.05);
+  }
+  50% {
+    box-shadow:
+      0 0 60px rgba(255, 215, 0, 0.35),
+      0 0 100px rgba(255, 107, 157, 0.25),
+      inset 0 0 60px rgba(255, 215, 0, 0.1);
+  }
+}
+
+.result-emoji-large {
+  margin-bottom: 20px;
+}
+
+.bouncing-emoji {
+  display: inline-block;
+  font-size: 4rem;
+  animation: bounceSoft 2s ease-in-out infinite;
+}
+
+@keyframes bounceSoft {
+  0%, 100% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-12px) scale(1.05); }
+  50% { transform: translateY(0) scale(1); }
+  75% { transform: translateY(-6px) scale(1.02); }
+}
+
+.result-divider {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ff6b9d, #c44dff, transparent);
+  margin: 0 auto 24px;
+  border-radius: 2px;
+}
+
+.result-text {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 500;
+  max-width: 600px;
+  margin: 0 auto 24px;
+  animation: typeReveal 0.8s ease-out 0.3s both;
+}
+
+@keyframes typeReveal {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.result-hearts {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.container {
-  background: white;
-  width: 450px;
-  padding: 40px;
-  border-radius: 20px;
+.result-heart {
+  display: inline-block;
+  font-size: 1.4rem;
+  animation: heartFloat 2s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  opacity: 0;
+  animation: heartAppear 0.5s ease-out forwards, heartFloat 2s ease-in-out 0.5s infinite;
+}
+
+@keyframes heartAppear {
+  from {
+    opacity: 0;
+    transform: scale(0) rotate(-20deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes heartFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Perfect Badge */
+.perfect-badge {
+  margin-top: 24px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 107, 157, 0.2));
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 50px;
+  display: inline-block;
+  animation: badgePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s both;
+}
+
+.badge-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffd700, #ff6b9d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+}
+
+@keyframes badgePop {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---- Footer ---- */
+.footer {
   text-align: center;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  padding: 40px 20px 30px;
+  margin-top: 20px;
 }
 
-h1 {
-  color: #ff4081;
-  margin-bottom: 25px;
-  font-size: 32px;
+.footer-content {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 24px 32px;
 }
 
-h2 {
-  min-height: 70px;
-  color: #333;
-  margin-bottom: 30px;
-  font-size: 22px;
-  transition: 0.3s;
+.footer-text {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+  line-height: 1.6;
 }
 
-button {
-  width: 100%;
-  padding: 15px;
-  margin: 12px 0;
-  font-size: 18px;
-  font-weight: bold;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: white;
+.footer-sub {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.35);
 }
 
-/* Normal JP */
-button:nth-of-type(1) {
-  background: #757575;
+/* ---- Animations ---- */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-button:nth-of-type(1):hover {
-  background: #616161;
-  transform: scale(1.05);
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Smart and Lean JP */
-button:nth-of-type(2) {
-  background: #2196f3;
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 20px 14px 14px;
+  }
+
+  .header {
+    padding: 30px 12px 20px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .title-emoji {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .buttons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .jp-button {
+    padding: 16px 10px;
+    border-radius: 16px;
+    min-height: 85px;
+  }
+
+  .btn-emoji {
+    font-size: 1.8rem;
+  }
+
+  .btn-label {
+    font-size: 0.8rem;
+  }
+
+  .interest-meter {
+    padding: 20px 18px;
+    border-radius: 18px;
+  }
+
+  .meter-label {
+    font-size: 0.95rem;
+  }
+
+  .meter-value {
+    font-size: 1.4rem;
+  }
+
+  .result-card {
+    padding: 28px 20px;
+    border-radius: 22px;
+  }
+
+  .bouncing-emoji {
+    font-size: 3rem;
+  }
+
+  .result-text {
+    font-size: 1.05rem;
+  }
+
+  .footer-content {
+    padding: 18px 16px;
+  }
 }
 
-button:nth-of-type(2):hover {
-  background: #1976d2;
-  transform: scale(1.05);
+@media (max-width: 400px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .buttons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .jp-button {
+    padding: 14px 8px;
+  }
+
+  .btn-emoji {
+    font-size: 1.5rem;
+  }
+
+  .btn-label {
+    font-size: 0.72rem;
+  }
 }
 
-/* Fit JP */
-button:nth-of-type(3) {
-  background: #43a047;
-}
-
-button:nth-of-type(3):hover {
-  background: #2e7d32;
-  transform: scale(1.05);
-}
-
-button:active {
-  transform: scale(0.96);
+@media (min-width: 1200px) {
+  .buttons-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
